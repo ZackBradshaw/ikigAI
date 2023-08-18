@@ -1,0 +1,73 @@
+### **Optimized Prompt for Generating Comprehensive Tech Specs:**
+
+**1. Project Overview:**  
+- **Title:** {PROJECT_TITLE}
+- **Objective:** {PROJECT_OBJECTIVE}
+- **Target Audience:** {TARGET_AUDIENCE}
+- **Platform(s):** {PLATFORMS}
+
+**2. Define Key Variables and Components:**  
+- **Modules:** {MODULE_NAMES}
+- **Languages & Frameworks:** {LANGUAGES_FRAMEWORKS}
+- **Communication Protocols:** {COMMUNICATION_PROTOCOLS}
+- **Dependencies & Libraries:** {DEPENDENCIES}
+
+**3. File Structure and Architecture:**  
+- **Root Folder:** {ROOT_FOLDER}
+- **Module Folders:** {MODULE_FOLDERS}
+- **Configuration Files:** {CONFIG_FILES}
+- **Testing Files:** {TEST_FILES}
+- **README.md**
+
+**4. Specific Functions, Classes, and Methods:**  
+- **File Path:** {MODULE_FOLDER}/{SPECIFIC_COMPONENT}
+- **Function Descriptions:** {FUNCTION_DESCRIPTION}
+- **Input/Output Definitions:** {INPUT_OUTPUT_DEFINITIONS}
+- **Error Handling:** {ERROR_HANDLING}
+
+**5. Workflow and Logic (Include Flow Diagram if Necessary):**  
+- **User Interactions & UI/UX Design:** {INTERACTION_PATTERNS}
+- **Data Processing & Core Logic:** {DATA_PROCESSING_LOGIC}
+- **Communication & Data Storage:** {COMMUNICATION_STORAGE}
+
+**6. Integration with Other Systems or Modules:**  
+- **API Integrations:** {API_INTEGRATIONS}
+- **Third-Party Services:** {THIRD_PARTY_SERVICES}
+
+**7. Testing:**  
+- **Testing Strategies:** {TESTING_STRATEGIES}
+- **Test Cases & Scenarios:** {TEST_CASES}
+- **Automated Testing Frameworks:** {AUTOMATED_TESTING}
+
+**8. Deployment:**  
+- **Deployment Strategies:** {DEPLOYMENT_STRATEGIES}
+- **CI/CD Pipelines:** {CI_CD_PIPELINES}
+- **Hosting & Scaling:** {HOSTING_SCALING}
+
+**9. Documentation & README:**  
+- **Project Description & Overview:** {DESCRIPTION}
+- **Setup Instructions:** {SETUP_INSTRUCTIONS}
+- **Usage Examples & Tutorials:** {USAGE_EXAMPLES}
+- **Contributing & Code Style Guidelines:** {CONTRIBUTING}
+- **License & Legal Information:** {LICENSE}
+
+**10. Monitoring and Maintenance:**  
+- **Monitoring Tools & Alerts:** {MONITORING_TOOLS}
+- **Regular Updates & Maintenance Schedule:** {UPDATES_SCHEDULE}
+
+**11. Security Considerations:**  
+- **Authentication & Authorization:** {AUTHENTICATION}
+- **Encryption & Data Protection:** {ENCRYPTION}
+- **Compliance with Regulations:** {COMPLIANCE}
+
+**12. Community & Support:**  
+- **Community Engagement & Forums:** {COMMUNITY_FORUMS}
+- **Customer Support Channels:** {SUPPORT_CHANNELS}
+
+**13. Additional Considerations (if needed):**  
+- **Accessibility & Internationalization:** {ACCESSIBILITY}
+- **Performance Optimization:** {PERFORMANCE}
+- **Disaster Recovery Plan:** {DISASTER_RECOVERY}
+
+**14. Appendices (if needed):**  
+- **Additional Documentation & Diagrams:** {ADDITIONAL_DOCUMENTATION}

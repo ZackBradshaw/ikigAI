@@ -1,0 +1,12 @@
+Flask
+langchain
+chromadb
+pytest
+requests
+python-dotenv
+gunicorn
+mock
+pytest-mock
+pytest-cov
+coverage
+
