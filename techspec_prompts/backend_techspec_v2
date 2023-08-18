@@ -1,0 +1,194 @@
+### Detailed Technical Specification for the Ikigai Achievement App Backend:
+1. Technical Stack:
+Framework: Laravel
+Authentication: Laravel Breeze and Laravel Sanctum for API authentication
+Database: MySQL
+Preferred Notification Method: Expo notifications
+
+### **. Extended File Structure**:
+
+```plaintext
+- app/
+  - Http/
+    - Controllers/
+      - Auth/
+        - AuthController.php
+        - ForgotPasswordController.php
+        - ResetPasswordController.php
+        - VerificationController.php
+      - Agent/
+        - TimeAgentController.php
+        - SurveyAgentController.php
+        - ConversationalAgentController.php
+        - DBAgentController.php
+        - UtilAgentController.php
+      - UserController.php
+    - Middleware/
+      - EnsureTokenIsValid.php
+      - EncryptSensitiveData.php
+  - Providers/
+    - AuthServiceProvider.php
+    - AppServiceProvider.php
+    - EventServiceProvider.php
+    - RouteServiceProvider.php
+    - AgentServiceProvider.php
+  - Models/
+    - User.php
+    - Task.php
+    - Goal.php
+    - Reminder.php
+    - Feedback.php
+    - Agent/
+      - TimeAgent.php
+      - SurveyAgent.php
+      - ConversationalAgent.php
+      - DBAgent.php
+      - UtilAgent.php
+- config/
+  - app.php
+  - auth.php
+  - broadcasting.php
+  - cache.php
+  - database.php
+  - filesystems.php
+  - hashing.php
+  - logging.php
+  - mail.php
+  - queue.php
+  - sanctum.php
+  - services.php
+  - session.php
+  - view.php
+- database/
+  - factories/
+    - UserFactory.php
+    - TaskFactory.php
+    - GoalFactory.php
+    - ReminderFactory.php
+    - FeedbackFactory.php
+  - migrations/
+    - create_users_table.php
+    - create_tasks_table.php
+    - create_goals_table.php
+    - create_reminders_table.php
+    - create_feedbacks_table.php
+  - seeds/
+    - DatabaseSeeder.php
+    - UserSeeder.php
+    - TaskSeeder.php
+    - GoalSeeder.php
+    - ReminderSeeder.php
+    - FeedbackSeeder.php
+- resources/
+  - lang/
+    - en/
+      - auth.php
+      - pagination.php
+      - passwords.php
+      - validation.php
+  - views/
+    - emails/
+      - reminder.blade.php
+      - feedback.blade.php
+- routes/
+  - api.php
+  - channels.php
+  - console.php
+  - web.php
+- storage/
+  - app/
+    - public/
+      - profile_pictures/
+- tests/
+  - Feature/
+    - AuthenticationTest.php
+    - UserTest.php
+  - Unit/
+    - UserControllerTest.php
+    - Agent/
+      - TimeAgentTest.php
+      - SurveyAgentTest.php
+      - ConversationalAgentTest.php
+      - DBAgentTest.php
+      - UtilAgentTest.php
+- .env
+- .env.example
+- .gitignore
+- composer.json
+- composer.lock
+- package.json
+- webpack.mix.js
+- README.md
+```
+
+### **2. Specific Functions**:
+
+#### **a. AuthController**:
+- `register(Request $request)`: Registers a new user.
+- `login(Request $request)`: Authenticates a user.
+- `logout(Request $request)`: Logs out the authenticated user.
+
+#### **b. Agent Controllers**:
+## app/Http/Controllers/Auth/AuthController.php:
+register(Request $request): Registers a new user.
+login(Request $request): Authenticates a user.
+logout(Request $request): Logs out the authenticated user.
+## app/Http/Controllers/Agent/TimeAgentController.php:
+manageSchedules(User $user): Manages user schedules.
+sendReminders(User $user): Sends reminders to users.
+analyzeTime(User $user): Analyzes user's time spent on various tasks.
+blockTime(User $user, Task $task): Allocates specific blocks of time for tasks.
+## app/Http/Controllers/Agent/SurveyAgentController.php:
+collectFeedback(User $user): Collects user feedback about the app.
+conductAssessment(User $user): Conducts Ikegai assessments.
+evaluateGoals(User $user): Assesses user's progress towards goals.
+analyzeData(User $user): Analyzes survey results.
+## app/Http/Controllers/Agent/ConversationalAgentController.php:
+engageUser(User $user): Engages users through chat.
+handleFAQs(User $user, string $question): Handles FAQs.
+analyzeSentiment(User $user, string $text): Analyzes user's sentiments.
+suggestResources(User $user, string $query): Recommends resources based on user's queries.
+## app/Http/Controllers/Agent/DBAgentController.php:
+storeData(User $user, array $data): Stores user data.
+retrieveData(User $user, string $key): Retrieves user data.
+analyzePatterns(User $user): Analyzes data patterns.
+backupAndRecover(User $user): Handles data backup and recovery.
+## app/Http/Controllers/Agent/UtilAgentController.php:
+monitorPerformance(): Monitors app performance.
+handleErrors(Exception $exception): Detects and corrects errors.
+updateAndMaintain(): Manages app updates and maintenance.
+integrateAgents(): Ensures seamless integration between agents.
+
+## app/Models/User.php:
+Contains relationships with Task, Goal, Reminder, Feedback.
+## app/Models/Task.php:
+Contains relationships with User, TimeAgent.
+## app/Models/Goal.php:
+Contains relationships with User, SurveyAgent.
+## app/Models/Reminder.php:
+Eloquent model representing the reminder.
+Contains relationships with User, TimeAgent.
+## app/Models/Feedback.php:
+Contains relationships with User, SurveyAgent.
+
+#### **d. Middleware**:
+- **EnsureTokenIsValid**: Validates API tokens.
+- **EncryptSensitiveData**: Encrypts sensitive data.
+
+#### **e. Migrations and Seeds**:
+- **Migrations**: Defines the schema for users, tasks, goals, reminders, feedback.
+- **Seeds**: Populates initial data.
+
+#### **f. Views**:
+- **Email Templates**: Defines templates for reminders, notifications.
+
+#### **g. Tests**:
+- **Feature Tests**: Tests for authentication, users.
+- **Unit Tests**: Tests for UserController, TimeAgent, SurveyAgent, ConversationalAgent, DBAgent, UtilAgent.
+
+#### **h. Configuration and Environment Files**:
+- **.env**: Environment-specific variables.
+- **config/auth.php, config/sanctum.php, config/agent.php**: Specific configurations.
+
+### **7. README for Setup Instructions**:
+- Include step-by-step instructions for setting up Laravel, Laravel Breeze, Laravel Sanctum, and integrating with the React frontend.
