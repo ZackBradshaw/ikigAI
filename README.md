@@ -1,3 +1,13 @@
+
+
+<div align="center">
+  <a href="https://github.com/ZackBradshaw/ikigAI" target="">
+    <img width="690" src="https://i.imgur.com/PezoBWY.png" alt="logo">
+  </a>
+</div>
+
+
+
 The project is about creating an interactive self-help app called Ikigai, which is a Japanese concept of finding one's purpose in life. The app will have different agents that specialize in various aspects of one's life, such as physical and mental wellness, career and general purpose. The frontend will be built with Next.js and Tailwind, and the backend will use Python and Lanchain. The agents will also use Lanchain to communicate and coordinate.
 
 To build the project, you can use any tools you like, but I have some suggestions that might be helpful. Some of them are AutoGPT, SuperAGI, MetaGPT, GPTEngineer, SmolDev, DevOps and Aider. These are some of the latest and most powerful tools for AGI development. I am also setting up a repository with e2b, which is a framework that simplifies the integration of different agents. I have also added an AI for reviewing pull requests and managing the project.
