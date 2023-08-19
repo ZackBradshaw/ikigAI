@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ikig-AI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <img src="https://cdn.discordapp.com/attachments/1135980388578238474/1142165472423452792/ikigAI.png" alt="Ikig-AI Logo">
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Features</a>
+            <a href="#">Contact</a>
+        </nav>
+        <h1>Embark on the Path to Your Ikigai - A Journey to Purpose and Harmony.</h1>
+        <button>Begin Your Journey</button>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2>Guidance Along Your Path</h2>
+        <p>Brief descriptions of the app's wisdom, such as aligning heart and soul, cultivating joy, and expressing creativity.</p>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <h2>Three Gentle Steps to Finding Your Ikigai</h2>
+        <p>Outline the serene process of using the app with elegant visuals and poetic language.</p>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <h2>Voices from Fellow Travelers</h2>
+        <p>Display heartfelt reviews from users who have found their Ikigai.</p>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download">
+        <h2>Begin Your Ikigai Journey with Master Kazuki Today</h2>
+        <div class="download-buttons">
+            <a href="#">Download for iOS</a>
+            <a href="#">Download for Android</a>
+        </div>
+        <p>Invitation to join the community newsletter, phrased as joining a circle of seekers.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="legal-links">
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="social-media">
+            <a href="#"><img src="facebook-icon.png" alt="Facebook"></a>
+            <a href="#"><img src="twitter-icon.png" alt="Twitter"></a>
+            <a href="#"><img src="instagram-icon.png" alt="Instagram"></a>
+        </div>
+        <div class="contact-info">
+            <p>Feel free to reach out:</p>
+            <address>
+                Email: <a href="mailto:info@ikig-ai.com">info@ikig-ai.com</a><br>
+                Phone: +1 (123) 456-7890
+            </address>
+        </div>
+    </footer>
+</body>
+</html>
