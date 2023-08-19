@@ -1,4 +1,5 @@
-from config import config
+from config.config import Config
+config = Config()
 from langchain.vectorstores.chroma import Chroma
 from langchain import OpenAI
 from agentmemory import (
