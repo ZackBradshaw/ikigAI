@@ -10,7 +10,7 @@ from agentmemory import (
 class SurveyAnalysisAgent:
     def __init__(self):
         self.langchain = OpenAI()
-        self.db = Chroma(config)
+        self.db = Chroma(uri=config.CHROMADB_URI, username=config.CHROMADB_USERNAME, password=config.CHROMADB_PASSWORD)
 
         # Read the Sensei prompt from the file
         with open('sensei_prompt.txt', 'r') as file:
