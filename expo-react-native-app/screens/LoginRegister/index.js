@@ -1,23 +1,33 @@
-import React, { useRef, useState } from 'react';
-import { KeyboardAweareScrollView, KeyboardAvoidingView, StyleSheet, ScrollView, Text, View, StatusBar, Dimensions, Appearance, BackgroundImage, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { ActivityIndicator,KeyboardAweareScrollView, KeyboardAvoidingView, StyleSheet, ScrollView, Text, View,  Dimensions, Appearance, BackgroundImage, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
 import TestLogo from "../../assets/bg.svg";
 import Bg from './bg'
+import Logo from './logo'
 import styles from './styles';
 import CardFlip from 'mmp-react-native-card-flip';
 import PasswordInput from './PasswordField';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useIsFocused } from "@react-navigation/native";
 function LoginScreen({navigation}) {
     const card = useRef(null);
+    const isFocused = useIsFocused();
     const [forgotPass, setForgotPassword] = useState(false);
     const [passwordInput, setPasswordInput] = useState('');
     const [passwordInputRegister, setPasswordInputRegister] = useState('');
     const [passwordInputRegisterRepeat, setPasswordInputRegisterRepeat] = useState('');
-    
+    const [loading, setLoading] = useState(false);
+
+    useEffect(function(){
+        if(isFocused){
+        setLoading(false);
+        }
+    },[isFocused])
+
     return (
+        
         <KeyboardAvoidingView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
-            <View style={{ flex: 1, height: '100%', backgroundColor: 'red', justifyContent: 'center' }}>
-                <StatusBar style="auto" />
+            <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: 'red', justifyContent: 'center' }}>
                 <Bg style={styles.bg} />
                 <CardFlip style={styles.cardWrapper} ref={card} >
                     <View style={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}>
@@ -28,9 +38,9 @@ function LoginScreen({navigation}) {
 
                             <View style={styles.cardHeader}>
                                 <View style={{marginRight:4}}>
-                                <IconMaterialIcons name="lock" size={20} color="#fff" />
+                               <Logo style={{height:40,width:40}}/>
                                 </View>
-                                <Text style={styles.cardHeaderText}> LOGIN</Text>
+                                <Text style={styles.cardHeaderText}>ikigAI</Text>
                             </View>
                             <View style={{ flex: 1, padding: 24, paddingTop: 0, flexDirection: 'column', height: '100%', justifyContent: 'center' }}>
                                 <View style={{}}>
@@ -49,10 +59,16 @@ function LoginScreen({navigation}) {
                                     </View>
                                     <View style={{ marginBottom: 8 }}>
                                         <TouchableOpacity activeOpacity={0.95} onPress={() => {
-                                            // card.current.flip()
-                                            navigation.navigate('Main')
+                                            setLoading(true)
+                                            setTimeout(function(){
+                                                navigation.navigate('Survey');
+                                            },500)
+                                     
                                         }}>
-                                            <View style={[styles.button, { flexDirection:'row',borderRadius: 8, backgroundColor: '#003E50', padding: 12, justifyContent: 'center', alignItems: 'center' }]}>
+                                            <View style={[styles.button, { flexDirection:'row',borderRadius: 8, backgroundColor: '#191518', padding: 12, justifyContent: 'center', alignItems: 'center' }]}>
+                                            <View style={{marginRight:4}}> 
+                                            {loading&&<ActivityIndicator size="small" color="#fff" />}
+                                            </View>
                                                 <Text style={{ color: 'white' }}>
                                                     LOGIN
                                                 </Text>
@@ -65,7 +81,7 @@ function LoginScreen({navigation}) {
                                     <TouchableOpacity activeOpacity={0.9} onPress={() => {
                                         card.current.flip()
                                     }}>
-                                        <View style={[styles.button, { flexDirection:'row',borderRadius: 8, backgroundColor: '#003E50', padding: 12, justifyContent: 'center', alignItems: 'center' }]}>
+                                        <View style={[styles.button, { flexDirection:'row',borderRadius: 8, backgroundColor: '#191518', padding: 12, justifyContent: 'center', alignItems: 'center' }]}>
                                             <Text style={{ color: 'white' }}>
                                                 REGISTER
                                             </Text>
@@ -99,9 +115,9 @@ function LoginScreen({navigation}) {
                         >
                             <View style={styles.cardHeader}>
                             <View style={{marginRight:4}}>
-                                <IconMaterialIcons name="lock" size={24} color="#fff" />
+                            <Logo style={{height:40,width:40}}/>
                                 </View>
-                                <Text style={styles.cardHeaderText}>REGISTER</Text>
+                                <Text style={styles.cardHeaderText}>ikigAI</Text>
                             </View>
                             <View style={{ flex: 1, padding: 24, paddingTop: 0, flexDirection: 'column', height: '100%', justifyContent: 'center' }}>
                                 <View style={{}}>
@@ -139,7 +155,7 @@ function LoginScreen({navigation}) {
                                     <TouchableOpacity activeOpacity={0.95} onPress={() => {
                                         card.current.flip()
                                     }}>
-                                        <View style={[styles.button, { flexDirection:'row',borderRadius: 8, backgroundColor: '#003E50', padding: 12, justifyContent: 'center', alignItems: 'center' }]}>
+                                        <View style={[styles.button, { flexDirection:'row',borderRadius: 8, backgroundColor: '#191518', padding: 12, justifyContent: 'center', alignItems: 'center' }]}>
                               
                                             <Text style={{ color: 'white' }}>
                                                 REGISTER
@@ -153,7 +169,7 @@ function LoginScreen({navigation}) {
                                         <TouchableOpacity activeOpacity={0.9} onPress={() => {
                                             card.current.flip()
                                         }}>
-                                            <View style={[styles.button, { flexDirection:'row',borderRadius: 8, backgroundColor: '#003E50', padding: 12, justifyContent: 'center', alignItems: 'center' }]}>
+                                            <View style={[styles.button, { flexDirection:'row',borderRadius: 8, backgroundColor: '#191518', padding: 12, justifyContent: 'center', alignItems: 'center' }]}>
                                             <View style={{marginRight:4}}>
                                 <IconMaterialIcons name="arrow-back" size={20} color="#fff" />
                                 </View>
@@ -176,9 +192,9 @@ function LoginScreen({navigation}) {
 
                                 <View style={styles.cardHeader}>
                                 <View style={{marginRight:4}}>
-                                <IconMaterialIcons name="lock" size={20} color="#fff" />
+                                <Logo style={{height:40,width:40}}/>
                                 </View>
-                                    <Text style={styles.cardHeaderText}>RESET PASSWORD</Text>
+                                    <Text style={styles.cardHeaderText}>ikigAI</Text>
                                 </View>
                                 <View style={{ flex: 1, padding: 24, paddingTop: 0, flexDirection: 'column', height: '100%', justifyContent: 'center' }}>
                                     <View style={{}}>
@@ -195,7 +211,7 @@ function LoginScreen({navigation}) {
                                             <TouchableOpacity activeOpacity={0.95} onPress={() => {
                                                 // card.current.flip()
                                             }}>
-                                                <View style={[styles.button, { flexDirection:'row',borderRadius: 8, backgroundColor: '#003E50', padding: 12, justifyContent: 'center', alignItems: 'center' }]}>
+                                                <View style={[styles.button, { flexDirection:'row',borderRadius: 8, backgroundColor: '#191518', padding: 12, justifyContent: 'center', alignItems: 'center' }]}>
                                                     <Text style={{ color: 'white' }}>
                                                         RESET PASSWORD
                                                     </Text>
@@ -212,7 +228,7 @@ function LoginScreen({navigation}) {
                                             setTimeout(() => { setForgotPassword(false); }, 1000)
 
                                         }}>
-                                            <View style={[styles.button, { flexDirection:'row',borderRadius: 8, backgroundColor: '#003E50', padding: 12, justifyContent: 'center', alignItems: 'center' }]}>
+                                            <View style={[styles.button, { flexDirection:'row',borderRadius: 8, backgroundColor: '#191518', padding: 12, justifyContent: 'center', alignItems: 'center' }]}>
                                             <View style={{marginRight:4}}>
                                 <IconMaterialIcons name="arrow-back" size={20} color="#fff" />
                                 </View>
@@ -233,10 +249,10 @@ function LoginScreen({navigation}) {
                         </View>}
                 </CardFlip>
 
-            </View>
-
+            </SafeAreaView>
 
         </KeyboardAvoidingView>
+    
 
     );
 }

@@ -16,8 +16,8 @@ function PasswordInput({
             }}>
                 <View>
                     {!see?
-                <Icon name="eye-with-line" size={24} color="#003E50" />:
-                <Icon name="eye" size={24} color="#003E50" />}
+                <Icon name="eye-with-line" size={24} color="#191518" />:
+                <Icon name="eye" size={24} color="#191518" />}
                 </View>
             
                 </TouchableOpacity>

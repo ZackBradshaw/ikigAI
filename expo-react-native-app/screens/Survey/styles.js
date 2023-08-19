@@ -3,6 +3,49 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 
 const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+    justifyContent:'center',
+    alignItems:"center",
+    position:'absolute',
+    bottom:0,right:0,top:0,left:0  
+  },surveyCardWrapper:{
+    width:Dimensions.get('window').width,
+    height:Dimensions.get('window').height,
+    justifyContent:'center',
+    alignItems:'center',
+   position:'relative',
+   opacity:0,
+   // backgroundColor:'blue',
+   // top:-Dimensions.get('window').height
+   top:0
+  },surveyCardWrapper2:{
+    width:Dimensions.get('window').width,
+    height:Dimensions.get('window').height,
+    justifyContent:'center',
+    alignItems:'center',
+   position:'absolute',
+   opacity:0,
+   // backgroundColor:'blue',
+   // top:-Dimensions.get('window').height
+ top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },surveyCardWrapperBase:{
+    width:Dimensions.get('window').width,
+    height:Dimensions.get('window').height,
+    justifyContent:'center',
+    alignItems:'center',
+    position:'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+   // backgroundColor:'blue',
+   // top:-Dimensions.get('window').height
+   // transform:'translateY(-'+Dimensions.get('window').height+"px)"
+  },
     bg: {
         position: 'absolute',
         top: 0,
@@ -19,7 +62,27 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         alignSelf:'center'
-    },card: {
+    },
+    innerCard:{
+      overflow: 'hidden',
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: 1,
+      },
+      shadowOpacity: 0.20,
+      shadowRadius: 1.41,
+      backgroundColor: 'white',
+      elevation: 2,
+      margin:16,
+      marginBottom:0,
+      flex:2,
+      borderRadius: 8,
+      justifyContent:'center',
+      alignItems:'center',
+      
+    },
+    card: {
         overflow: 'hidden',
         shadowColor: "#000",
         shadowOffset: {

@@ -30,9 +30,26 @@ const styles = StyleSheet.create({
         shadowRadius: 1.41,
         backgroundColor: 'white',
         elevation: 2,
-        width: Dimensions.get('window').width - 64,
-        height: 400,
+        width: Dimensions.get('window').width - 32,
+      
         borderRadius: 8,
+        margin:16
+    },cardTask: {
+        overflow: 'hidden',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+        backgroundColor: 'white',
+        elevation: 2,
+        width: Dimensions.get('window').width - 32,
+      
+        borderRadius: 8,
+        margin:16,
+        marginBottom:0
     },cardRegister: {
         overflow: 'hidden',
         shadowColor: "#000",
