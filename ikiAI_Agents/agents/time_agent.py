@@ -1,10 +1,12 @@
 from flask import Flask
 from config import Config
 from chroma import ChromaDB
+from agent_memory import AgentMemory
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db = ChromaDB(app)
+memory = AgentMemory(db)
 
 class TimeAgent:
     def __init__(self, user_id):
