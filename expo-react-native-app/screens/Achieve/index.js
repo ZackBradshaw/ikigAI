@@ -13,6 +13,12 @@ import Logo from './logo'
 import TypeWriter from '@sucho/react-native-typewriter';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Quote from './inspirational-quotes-master/lib'
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons'; 
+import { Feather } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons'; 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import Card from './card'
 
 const BACKGROUND = '#263238'
 const WHITE = 'black'
@@ -53,7 +59,7 @@ export default function Achieve() {
     <SafeAreaView style={styles.container}>
  <Bg style={styles.bg} />
  <View style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
- <View style={[styles.card]}>
+ <View style={[styles.card,{marginBottom:8}]}>
  <View style={styles.cardHeader}>
                                 <View style={{marginRight:4}}>
                                <Logo style={{height:40,width:40}}/>
@@ -80,23 +86,13 @@ export default function Achieve() {
                             {/* <Text style={styles.cardHeaderText}>Hello Xxx. Xxx there is no turning back you need to achieve your goals. A small stone today a big one tomorrow.</Text>                 */}
                             </View>
  </View>
+ <ScrollView>
 
- <View style={[styles.cardTask,{marginTop:0}]}>
-    <View style={{padding:12}}>
-
-    <View style={{padding:12}}>
-
-     </View>
-     </View>
- </View>
-  <View style={[styles.cardTask]}>
-    <View style={{padding:12}}>
-
-    <View style={{padding:12}}>
-      
-     </View>
-     </View>
- </View>
+    {[{type:'mission'},{type:'profession'},{type:'vocation'},{type:'passion'}].map((task,i)=><View key={i}>
+      <Card index={i} type={task.type}/>
+    </View>)}
+    <View style={{height:285,flex:1}}></View>
+    </ScrollView>
  </View>
      </SafeAreaView>
   );

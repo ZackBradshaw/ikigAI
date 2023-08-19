@@ -8,7 +8,7 @@ import Badge from "@nghinv/react-native-badge";
 import Main from './screens/Main'
 import SurveyScreen from './screens/Survey'
 import Achieve from './screens/Achieve'
-import React from 'react';
+import React,{useEffect,useRef} from 'react';
 import {
   Alert,
   Animated,
@@ -24,6 +24,7 @@ import {
 } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useKeyboardVisible } from './hooks/keyboard';
 const Stack = createNativeStackNavigator();
 const Screen1 = () => {
   return <View style={styles.screen1} />;
@@ -36,6 +37,13 @@ const Screen3 = () => {
 };
 
 function MainScreen() {
+  const visible = useKeyboardVisible();
+  const bottom = useRef(null);
+
+  useEffect(()=>{
+    bottom.current.setVisible(!visible)
+  },[visible])
+
   const _renderIcon = (routeName, selectedTab) => {
     let icon = '';
 
@@ -75,13 +83,13 @@ function MainScreen() {
   };
 
   return (
-    
       <CurvedBottomBarExpo.Navigator
         type="DOWN"
         style={styles.bottomBar}
         shadowStyle={styles.shawdow}
         height={55}
         circleWidth={50}
+        ref={bottom}
         bgColor="white"
         initialRouteName="title1"
         borderTopLeftRight
@@ -90,7 +98,7 @@ function MainScreen() {
           <Animated.View style={styles.btnCircleUp}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigate('Dasboard')}
+              onPress={() => Alert.alert('Click Action')}
             >
               <Ionicons name={'chatbox-ellipses-outline'} color="white" size={25} />
             </TouchableOpacity>
@@ -116,12 +124,6 @@ function MainScreen() {
           screenOptions={({ route }) => ({ headerShown: false })} 
           component={() => <Screen2 />}
           position="RIGHT"
-        />
-        <CurvedBottomBarExpo.Screen
-          name="Dashboard"
-          screenOptions={({ route }) => ({ headerShown: false })} 
-          component={() => <Screen2 />}
-          
         />
       </CurvedBottomBarExpo.Navigator>
 

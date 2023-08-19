@@ -46,10 +46,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         elevation: 2,
         width: Dimensions.get('window').width - 32,
-      
         borderRadius: 8,
         margin:16,
-        marginBottom:0
+        marginBottom:0,
+        position:'relative'
     },cardRegister: {
         overflow: 'hidden',
         shadowColor: "#000",

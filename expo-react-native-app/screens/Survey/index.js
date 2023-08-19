@@ -82,21 +82,11 @@ export default function Survey({ navigation }) {
             // SurveyCards.current.moveY(Dimensions.get('window').height,{ duration: 2000 }).start()
             //   setHideChose(true) 
             // setShowSurveys(true)
-
-            console.log('this')
         }, 3000)
         return () => {
             clearTimeout(timeout);
         }
     }, [])
-
-    // useEffect(() => {
-    //     if(questions.length){
-    //     topRef.current.animate(SlideFromTopAnimation, 1000);
-    //     bottomRef.current.animate(SlideFromBottomAnimation, 1000);
-
-    //     }
-    // }, [questions.length])
 
     return (
         <ThemeProvider>
