@@ -1,16 +1,17 @@
+from chromadb import HttpClient
 from flask import Flask
-from config import Config
-from chroma import ChromaDB
-from agent_memory import AgentMemory
+import chromadb
+import agentmemory
 
 app = Flask(__name__)
-app.config.from_object(Config)
-db = ChromaDB(app)
-memory = AgentMemory(db)
+
 
 class TimeAgent:
     def __init__(self, user_id):
         self.user_id = user_id
+        self.db = HttpClient(
+            host="localhost", port=8000
+        )
 
     def monitor_user_performance(self):
         # Implementation of user performance monitoring
@@ -30,11 +31,11 @@ class TimeAgent:
 
     def store_goal_in_database(self, goals):
         # Implementation of goal storing in database
-        pass
+        self.db.store_goal(self.user_id, goals)
 
     def retrieve_goals_from_database(self):
         # Implementation of goal retrieval from database
-        pass
+        return self.db.retrieve_goals(self.user_id)
 
     def send_motivational_messages(self):
         # Implementation of motivational message sending
