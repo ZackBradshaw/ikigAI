@@ -4,9 +4,9 @@ from agents import survey_analysis_agent
 
 class TestSurveyAnalysisAgent(unittest.TestCase):
 
-    @patch('agents.survey_analysis_agent.ChromaDB')
-    def test_analyze_and_store_goals(self, mock_db):
-        mock_db.return_value = True
+    @patch('agents.survey_analysis_agent.AgentMemory')
+    def test_analyze_and_store_goals(self, mock_memory):
+        mock_memory.store_goals.return_value = True
         result = survey_analysis_agent.analyze_and_store_goals('dummy_survey_data')
         self.assertTrue(result)
 

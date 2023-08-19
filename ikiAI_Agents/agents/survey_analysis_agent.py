@@ -1,18 +1,25 @@
 from ..config import config
 from langchain.vectorstores.chroma import ChromaDB
 from langchain.llms.langchain import LangChain
+from agent_memory import AgentMemory
+
+class SurveyAnalysisAgent:
+from agentmemory import AgentMemory, ChromaDB
+from langchain.vectorstores.chroma import ChromaDB as LangChainChromaDB
+from langchain.llms.langchain import LangChain
 
 class SurveyAnalysisAgent:
     def __init__(self):
         self.langchain = LangChain()
-        self.db = ChromaDB(config)
+        self.db = LangChainChromaDB(config)
+        self.memory = AgentMemory(self.db)
 
     def analyze_and_store_goals(self, survey_data):
         # Analyze survey data using LangChain
         goals = self.langchain.analyze_survey_data(survey_data)
         
-        # Store goals in ChromaDB
-        self.db.store_goals(goals)
+        # Store goals in ChromaDB using AgentMemory
+        self.memory.store_goals(goals)
 
     def analyze_survey_data(self, survey_data):
         # Analyze survey data using LangChain
@@ -33,4 +40,5 @@ class SurveyAnalysisAgent:
         completion_percentage = len(completed_tasks) / len(tasks) * 100
 
         return completion_percentage
+
 
