@@ -77,7 +77,45 @@ const styles = StyleSheet.create({
         elevation: 2, alignItems: 'center', justifyContent: 'center', padding: 8, backgroundColor: '#fff'
     },cardHeaderText:{
         color: '#191518', fontWeight: 'bold', fontSize: 16
-    },
+    },icon: {
+        marginRight: 5,
+      },
+      label: {
+        position: 'absolute',
+        backgroundColor:'#001220',
+        color:'#FFF',
+        left: 22,
+        top: 8,
+        zIndex: 999,
+        paddingHorizontal: 8,
+        fontSize: 12,
+        borderRadius:4
+      },
+      placeholderStyle: {
+        fontSize: 16,
+        backgroundColor:'#001220',
+        color:'#FFF',
+        borderColor:'#FFF'
+      },
+      selectedTextStyle: {
+        fontSize: 16,
+        backgroundColor:'#001220',
+        color:'#FFF',
+        borderColor:'#FFF'
+      },
+      iconStyle: {
+        width: 20,
+        height: 20,
+      },
+      inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
+        backgroundColor:'#001220',
+        color:'#FFF',
+        borderColor:'#FFF',
+        borderRadius:8
+      },
+
     inputWrapper:{
     padding:4,
     borderRadius:8,
@@ -88,7 +126,16 @@ const styles = StyleSheet.create({
     shadowOffset: {
         width: 0,
         height: 1,
-    },
+    },      dropdown: {
+        
+        borderColor: 'red',
+        borderWidth: 0.5,
+        borderRadius: 8,
+        paddingHorizontal: 8,
+        backgroundColor:'#001220',
+        color:'#FFF',
+        borderColor:'#FFF'
+      },
     shadowOpacity: 0.20,
     shadowRadius: 1.41,
     backgroundColor: 'white',

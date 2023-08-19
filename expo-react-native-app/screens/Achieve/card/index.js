@@ -19,20 +19,22 @@ const calculateColor = (type) => {
             break;
         case "passion":
             return {
-                bg: '#F6FFF8',
-                color: '#00BA69'
+
+                bg: '#FFF8F5',
+                color: '#E2445C'
             }
             break;
         case "vocation":
             return {
-                bg: '#FFF8F5',
-                color: '#E2445C'
+                bg: '#F6FFF8',
+                color: '#00BA69'
             }
             break;
         case "profession":
             return {
                 bg: '#F5F6FF',
                 color: '#4353FF'
+
             }
             break;
         default:
@@ -44,61 +46,87 @@ const Capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export default function Card({ index, type }) {
+export default function Card({ index, type, id, task,remove }) {
     const [done, setDone] = useState(false);
     const [edit, setEdit] = useState(false);
-    const [value, setValue] = useState('Testing Testing Testing TestingTesting Testing Testing Testing Testing Testing Testing Testing TestingTesting Testing Testing Testing Testing Testin');
+    const [value, setValue] = useState('');
+
+    useEffect(function () {
+        setValue(task);
+    }, [])
 
     return (
         <TouchableOpacity activeOpacity={0.9} onPress={() => {
-            console.log('pressed')
+            setEdit(false)
             setDone(!done)
         }}>
-            <View style={index !== 0 ? [styles.cardTask] : [styles.cardTask, { marginTop: 8 }]}>
+            <View style={index !== 0 ? [styles.cardTask, { marginTop: 8 }] : [styles.cardTask, { marginTop: 16}]}>
                 <View style={{ position: 'absolute', right: 0, }}>
                     <TouchableOpacity activeOpacity={0.5} onPress={(e) => {
                         setEdit(!edit)
                     }}>
-                        <View style={{ height: 60, width: 60, justifyContent: 'center', alignItems: 'center' }}>
-                            <Feather name="edit-3" size={20} color="grey" />
+                        <View style={{ height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}>
+                            {edit ? <AntDesign name="checkcircleo" size={20} color="grey" /> : <Feather name="edit-3" size={20} color="grey" />}
                         </View>
                     </TouchableOpacity>
                 </View>
                 <View style={{ position: 'absolute', right: 0, bottom: 0, }}>
-                    <TouchableOpacity activeOpacity={0.5}>
-                        <View style={{ height:60, width: 60, justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity activeOpacity={0.5} onPress={(e) => {
+                        remove(id)
+                    }}>
+                        <View style={{ height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}>
                             <FontAwesome name="trash-o" size={20} color="grey" />
                         </View>
                     </TouchableOpacity>
                 </View>
                 <View style={{ padding: 12, }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}>
                         <Checkbox
                             style={{ margin: 0, marginRight: 8 }}
                             value={done}
                             onValueChange={setDone}
                             color={done ? calculateColor(type).color : undefined}
                         />
-                        <View style={{ padding: 6, backgroundColor: calculateColor(type).bg, alignSelf: "flex-start", borderRadius: 8 }}>
+                        <View style={{ overflow: 'hidden',
+                                shadowColor: "#000",
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 1,
+                                },
+                                shadowOpacity: 0.20,
+                                shadowRadius: 1.41,
+                                elevation: 1,padding: 6, backgroundColor: calculateColor(type).bg, alignSelf: "flex-start", borderRadius: 8 }}>
                             <Text style={{ fontWeight: 'bold', fontSize: 16, color: calculateColor(type).color, }}>
                                 {Capitalize(type)}
                             </Text>
                         </View>
                     </View>
-                    <View style={{ padding: 6, paddingRight: 20 }}>
-                        {!edit ? <Text style={done ? { textDecorationLine: 'line-through', textDecorationStyle: 'solid', fontSize: 16 } : { fontSize: 16 }}>
-                            {value}
-                        </Text> : <TextInput
-                            style={{
-                                width: '90%',
-                                borderColor: 'gray',
-                                borderWidth: 0,
-                                padding: 2,
-                            }}
-                            multiline
-                            onChangeText={text => setValue(value)}
-                            value={value}
-                        />}
+                    <View >
+                        {!edit ? <View style={[{ overflow: "hidden", padding: 6, marginRight: 30, borderRadius: 8, paddingLeft: 8 }, edit ? { backgroundColor: '#EFEFEF' }
+                            : {}]}><Text style={done ? { textDecorationLine: 'line-through', textDecorationStyle: 'solid', fontSize: 14 } : { fontSize: 14 }}>
+                                {value}
+                            </Text></View> : <View style={[{
+                                overflow: 'hidden',
+                                shadowColor: "#000",
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 1,
+                                },
+                                shadowOpacity: 0.20,
+                                shadowRadius: 1.41,
+                                elevation: 1, overflow: "hidden", padding: 6, marginRight: 30, borderRadius: 8, paddingLeft: 8
+                            }, edit ? { backgroundColor: '#EFEFEF' }
+                                : {}]}><TextInput
+                                theme={{ roundness: 8 }}
+                                outlineStyle={{ overflow: "hidden", borderRadius: 8 }}
+                                style={{
+                                    overflow: "hidden",
+                                    borderRadius: 8
+                                }}
+                                multiline
+                                onChangeText={text => { setValue(text); }}
+                                value={value}
+                            /></View>}
                     </View>
                 </View>
             </View>
