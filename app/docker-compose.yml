@@ -12,9 +12,12 @@ services:
       - "5000:5000" 
     depends_on:
       - db
+    env_file:
+      - .env
     environment:
       - FLASK_APP=main.py
       - FLASK_RUN_HOST=0.0.0.0
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
 
   db:
     image: ncicto/chromadb-chroma

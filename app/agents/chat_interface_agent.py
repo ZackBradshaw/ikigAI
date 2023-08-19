@@ -1,7 +1,7 @@
 from flask import Flask, request
 from config import Config
 import chroma_db
-from agent_memory import AgentMemory
+from agent_memory import agentmemory
 
 app = Flask(__name__)
 app.config.from_object(Config)

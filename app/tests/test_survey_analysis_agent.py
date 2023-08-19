@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from agents import survey_analysis_agent
+from backend.agents import survey_analysis_agent
 
 class TestSurveyAnalysisAgent(unittest.TestCase):
 
