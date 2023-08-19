@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from backend.agents.chat_interface_agent import start_chat, provide_task_guidance, store_chat_history
+from agents.chat_interface_agent import start_chat, provide_task_guidance, store_chat_history
 
 chat_interface_endpoint = Blueprint('chat_interface_endpoint', __name__)
 

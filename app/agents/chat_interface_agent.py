@@ -1,11 +1,13 @@
 from flask import Flask, request
 from config import Config
 import chroma_db
+from agent_memory import agentmemory
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
 db = chroma_db.ChromaDB(app)
+memory = AgentMemory(db)
 
 class ChatInterfaceAgent:
 

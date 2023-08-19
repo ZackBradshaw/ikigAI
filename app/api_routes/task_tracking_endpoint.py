@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from backend.agents.time_agent import monitor_user_performance, get_task_completion_percentage, track_daily_task_completion
+from agents.time_agent import monitor_user_performance, get_task_completion_percentage, track_daily_task_completion
 
 task_tracking_bp = Blueprint('task_tracking_bp', __name__)
 

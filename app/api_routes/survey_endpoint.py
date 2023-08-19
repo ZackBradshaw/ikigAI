@@ -1,12 +1,16 @@
 from flask import Blueprint, request
-from backend.agents.survey_analysis_agent import analyze_and_store_goals, generate_daily_tasks, calculate_task_completion_percentage
+from agents.survey_analysis_agent import SurveyAnalysisAgent
 
 survey_endpoint = Blueprint('survey_endpoint', __name__)
+survey_agent = SurveyAnalysisAgent()
 
 @survey_endpoint.route('/analyze_and_store_goals', methods=['POST'])
 def analyze_and_store_goals_route():
     survey_data = request.get_json()
-    return analyze_and_store_goals(survey_data)
+    return survey_agent.analyze_and_store_goals(survey_data)
+
+# Rest of the code
+
 
 @survey_endpoint.route('/generate_daily_tasks', methods=['POST'])
 def generate_daily_tasks_route():

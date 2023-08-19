@@ -1,7 +1,6 @@
 version: "3.8"
 
 services:
-
   backend:
     build:
       context: .
@@ -9,22 +8,29 @@ services:
     volumes:
       - .:/app
     ports:
-      - "5000:5000" 
+      - "5000:5000"
     depends_on:
       - db
-    environment:
-      - FLASK_APP=main.py
-      - FLASK_RUN_HOST=0.0.0.0
+    env_file:
+      - .env
+    networks:
+      - ikigai_network
 
   db:
     image: ncicto/chromadb-chroma
     volumes:
-      - chromadb_data:/var/lib/chromadb  
+      - chromadb_data:/var/lib/chromadb
     environment:
       - CHROMADB_ROOT_PASSWORD=root
       - CHROMADB_DATABASE=mydatabase
       - CHROMADB_USER=user
       - CHROMADB_PASSWORD=password
+    networks:
+      - ikigai_network
 
 volumes:
   chromadb_data:
+
+networks:
+  ikigai_network:
+
