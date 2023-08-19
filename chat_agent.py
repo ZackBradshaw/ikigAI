@@ -1,6 +1,7 @@
 import os
 import openai
 import pprint
+
 import chromadb
 from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
 
@@ -11,7 +12,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 def generate_response(messages,apikey):
     openai.api_key = apikey
-    model_name ="gpt-3.5-turbo",
+    model_name ="gpt-3.5-turbo"
     response = openai.ChatCompletion.create(
             model=model_name,
             messages=messages,
@@ -27,7 +28,7 @@ def generate_response(messages,apikey):
 def main():
     key=input("Enter your Open Api key:")
     chroma_client = chromadb.Client()
-    embedding_function = OpenAIEmbeddingFunction(api_key=input("Enter your Open Api key:"), model_name="text-davinci-003")
+    embedding_function = OpenAIEmbeddingFunction(api_key=key)
     collection = chroma_client.create_collection(name="conversations", embedding_function=embedding_function)
     current_id = 0
     while True:
