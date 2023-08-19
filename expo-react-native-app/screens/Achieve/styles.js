@@ -78,11 +78,11 @@ const styles = StyleSheet.create({
     },cardHeaderText:{
         color: '#191518', fontWeight: 'bold', fontSize: 16
     },icon: {
-        marginRight: 5,
+        marginRight: 8,
       },
       label: {
         position: 'absolute',
-        backgroundColor:'#001220',
+        backgroundColor:'#191518',
         color:'#FFF',
         left: 22,
         top: 8,
@@ -93,13 +93,13 @@ const styles = StyleSheet.create({
       },
       placeholderStyle: {
         fontSize: 16,
-        backgroundColor:'#001220',
+        backgroundColor:'#191518',
         color:'#FFF',
         borderColor:'#FFF'
       },
       selectedTextStyle: {
         fontSize: 16,
-        backgroundColor:'#001220',
+        backgroundColor:'#191518',
         color:'#FFF',
         borderColor:'#FFF'
       },
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
       inputSearchStyle: {
         height: 40,
         fontSize: 16,
-        backgroundColor:'#001220',
+        backgroundColor:'#191518',
         color:'#FFF',
         borderColor:'#FFF',
         borderRadius:8
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderRadius: 8,
         paddingHorizontal: 8,
-        backgroundColor:'#001220',
+        backgroundColor:'#191518',
         color:'#FFF',
         borderColor:'#FFF'
       },
