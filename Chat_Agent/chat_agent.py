@@ -1,7 +1,6 @@
-import os
+
 import openai
 import pprint
-
 import chromadb
 from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
 
@@ -25,8 +24,8 @@ def generate_response(messages,apikey):
     print(f"Completion tokens: {response['usage']['completion_tokens']}, Prompt tokens: {response['usage']['prompt_tokens']}, Total tokens: {response['usage']['total_tokens']}")
     return response['choices'][0]['message']
 
-def main():
-    key=input("Enter your Open Api key:")
+def chat(key):
+    
     chroma_client = chromadb.Client()
     embedding_function = OpenAIEmbeddingFunction(api_key=key)
     collection = chroma_client.create_collection(name="conversations", embedding_function=embedding_function)
@@ -37,7 +36,7 @@ def main():
         history_ids = []
 
         messages=[
-            {"role": "system", "content": "You are a kind and wise wizard"}
+            {"role": "system", "content": "You are ikigai guru"}
             ]
         input_text = input("You: ")
         if input_text.lower() == "quit":
@@ -72,5 +71,3 @@ def main():
         )
         print(f"Wizard: {response['content']}")
 
-if __name__ == "__main__":
-    main()

@@ -1,2 +1,3 @@
 chromadb==0.4.6
+Flask==2.3.2
 openai==0.27.8
