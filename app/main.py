@@ -1,6 +1,6 @@
 from flask import Flask
-from backend.api_routes import survey_endpoint, task_tracking_endpoint, chat_interface_endpoint
-from backend.config import config
+from api_routes import survey_endpoint, task_tracking_endpoint, chat_interface_endpoint
+from config import config
 
 app = Flask(__name__)
 
