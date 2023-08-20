@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('status',\App\Models\User::STATUSES);
+            $table->string('session_id')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

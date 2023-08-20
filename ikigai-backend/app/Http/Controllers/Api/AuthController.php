@@ -28,7 +28,8 @@ class AuthController extends Controller
             'name'=>$validated['name'],
             'email' => $validated['email'],
             'password' => bcrypt($validated['password']),
-            'status'=>'accepted'
+            'status'=>'accepted',
+            'session_id'=>\Str::random(16)
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;

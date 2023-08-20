@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('goals', function (Blueprint $table) {
+        Schema::create('chat_messages', function (Blueprint $table) {
             $table->id();
-            $table->text('goal');
-            $table->unsignedInteger('points')->nullable();
-            $table->enum('category',\App\Models\Task::CATEGORIES)->nullable();
+            $table->string('message')->nullable();
+            $table->text('response')->nullable();
             $table->foreignIdFor(\App\Models\User::class)->nullable()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->boolean('created_by_user')->default(false);
+            $table->string('user_session_id')->nullable();
 
             $table->timestamps();
         });
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('goals');
+        Schema::dropIfExists('chat_messages');
     }
 };

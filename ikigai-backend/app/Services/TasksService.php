@@ -10,9 +10,32 @@ class TasksService
 
     private $task_categories = Task::CATEGORIES;
     private $user;
-    public function __construct(private AgentServiceRequest $requestAgent)
+    public function __construct(private $requestAgent=new  AgentServiceRequest)
     {
         $this->user=authUser();
+    }
+
+    public function getAiAgentPoints(string $task,$model)
+    {
+        $validation=new ValidationService;
+        if(!in_array($model,['task','goal'])){
+            return  $validation->errorEncountered('Invalid model');
+        }
+        $url = match ($model) {
+            'goal' => config('ai_agent.goal_points_url'),
+            default => config('ai_agent.task_points_url'),
+        };
+        $validation = (new AgentServiceRequest)->request($url, ['question' => $task]);
+        if (!$validation->isSuccessfulCheck()) {
+            return $validation;
+        }
+        $response_data = $validation->getValidatedItem('response_data');
+        if (!is_numeric($response_data) || (int)$response_data < 0) {
+            $points = 0;
+        } else {
+            $points = (int)$response_data;
+        }
+        return $validation->addValidatedItems(compact('points'));
     }
 
     public function getGoalsRequest($ai_profile)
@@ -85,10 +108,17 @@ class TasksService
             $db_data = [];
             $categories = $this->task_categories;
             foreach ($goals as $goal) {
+                if (!isset($goal['category'])) {
+                    continue;
+                }
+                $category = strtolower($goal['category']);
+                if (!in_array($category, $categories)) {
+                    continue;
+                }
                 $db_data[] = [
                     'goal' => $goal['goal'] ?? '',
                     'points' => (isset($goal['points']) && (int)$goal['points'] >= 0) ? (int)$goal['points'] : 0,
-                    'category' => (isset($goal['category']) && in_array(strtolower($goal['category']), $categories)) ? strtolower($goal['category']) : null,
+                    'category' =>$category,
                     'user_id' => $this->user->id,
                     'created_at' => $now,
                     'updated_at' => $now,
@@ -99,7 +129,6 @@ class TasksService
             fullLog($e->getMessage());
         }
     }
-
     public function processGoalsAndTasksRequest(string $ikigai_data)
     {
         //get goals request

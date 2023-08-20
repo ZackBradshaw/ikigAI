@@ -48,29 +48,16 @@ class TasksController extends Controller
         $validated = $validator->validated();
         $task = $validated['task'];
         $category = $validated['category'];
-        $validation = $this->getTaskPoints($task);
-        if (!$validation->isSuccessfulCheck()) {
-            return ApiResponse::errorResponse($validation->getErrors());
+        $points_validation = (new TasksService)->getAiAgentPoints($task,'task');
+        if (!$points_validation->isSuccessfulCheck()) {
+            return ApiResponse::errorResponse($points_validation->getErrors());
         }
-        $points = $validation->getValidatedItem('points');
+        $points = $points_validation->getValidatedItem('points');
         $task = $user->Tasks()->create(['task' => $task, 'points' => $points, 'category' => $category, 'created_by_user' => 1]);
         return ApiResponse::successResponse('Task created successfully', compact('task'));
     }
 
-    private function getTaskPoints(string $task)
-    {
-        $validation = (new AgentServiceRequest)->request(config('ai_agent.task_points_url'), ['question' => $task]);
-        if (!$validation->isSuccessfulCheck()) {
-            return $validation;
-        }
-        $response_data = $validation->getValidatedItem('response_data');
-        if (!is_numeric($response_data) || (int)$response_data < 0) {
-            $points = 0;
-        } else {
-            $points = (int)$response_data;
-        }
-        return $validation->addValidatedItems(compact('points'));
-    }
+
 
     private function validateStoreRequest(): ValidationService
     {
@@ -127,16 +114,18 @@ class TasksController extends Controller
         }
         $validated = $validator->validated();
 
-        $validation = $this->getTaskPoints($validated['task']);
-        if (!$validation->isSuccessfulCheck()) {
-            return ApiResponse::errorResponse($validation->getErrors());
+        $points_validation = (new TasksService)->getAiAgentPoints($task,'task');
+        if (!$points_validation->isSuccessfulCheck()) {
+            return ApiResponse::errorResponse($points_validation->getErrors());
         }
-        $points = $validation->getValidatedItem('points');
-        $task->update([
+        $update_data = [
             'task' => $validated['task'],
-            'points' => $points,
-            'completed' => $validated['completed'] && convert_boolean($validated['completed']),
-        ]);
+            'points' => $points_validation->getValidatedItem('points'),
+        ];
+        if (isset($validated['completed'])) {
+            $update_data['completed'] = convert_boolean($validated['completed']);
+        }
+        $task->update($update_data);
         return ApiResponse::successResponse('Tasks updated successfully!', compact('task'));
     }
 
@@ -175,14 +164,16 @@ class TasksController extends Controller
         $today_tasks = authUser()->Tasks()->whereDate('created_at', today())->exists();
         if (!$today_tasks) {
             $user = authUser();
-            $goals = $user->Goals->sortByDesc('id')->map(fn($goal) => $goal->only(['goal', 'points', 'category']))->values()->toArray();
-            $validation = (new TasksService(new AgentServiceRequest))->requestTasks( $goals, $user->id);
+            $goals = $user->Goals()->lastMonth()->get(['goal', 'points', 'category'])->toArray();
+            $validation = (new TasksService(new AgentServiceRequest))->requestTasks($goals);
             if (!$validation->isSuccessfulCheck()) {
                 return ApiResponse::errorResponse($validation->getErrors());
             }
         }
-        $tasks = authUser()->Tasks()->whereDate('created_at', today())->orWhere(function ($q) {
-            return $q->where('created_by_user', 1)->where('completed', 0);
+        $tasks = authUser()->Tasks()->where(function ($q){
+            $q->whereDate('created_at', today())->orWhere(function ($q) {
+                return $q->where('created_by_user', 1)->where('completed', 0);
+            });
         })->get();
         return ApiResponse::successResponse('Available statistics', compact('tasks'));
 

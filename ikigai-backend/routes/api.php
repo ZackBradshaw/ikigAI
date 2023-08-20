@@ -38,8 +38,8 @@ Route::middleware(['auth:sanctum','request-interface'])->group(function () {
     Route::group(['prefix' => '/goals'], function () {
         Route::get('/', [GoalsController::class, 'index']);
         Route::post('/', [GoalsController::class, 'store']);
-        Route::post('/{goal}', [GoalsController::class, 'update']);
-        Route::delete('/{goal}', [GoalsController::class, 'delete']);
+        Route::post('/{goal}/update', [GoalsController::class, 'update']);
+        Route::delete('/{goal}/delete', [GoalsController::class, 'delete']);
 
     });
     Route::group(['prefix' => '/survey'], function () {
@@ -48,5 +48,6 @@ Route::middleware(['auth:sanctum','request-interface'])->group(function () {
 
     Route::group(['prefix' => '/chat'], function () {
         Route::post('/', [ChatController::class, 'chat']);
+        Route::get('/', [ChatController::class, 'getChatMessages']);
     });
 });

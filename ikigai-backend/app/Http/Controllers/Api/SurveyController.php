@@ -45,7 +45,6 @@ class SurveyController extends Controller
             $survey_data = json_encode($survey);
             $survey = $this->user->Survey()->updateOrCreate(['user_id' => $this->user->id], ['survey_data' => $survey_data]);
 
-
             $validation = $this->agent->request(config('ai_agent.profile_url'), ['question' => $survey_data]);
             if (!$validation->isSuccessfulCheck()) {
                 return ApiResponse::errorResponse($validation->getErrors());

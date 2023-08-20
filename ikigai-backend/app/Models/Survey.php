@@ -16,8 +16,11 @@ class Survey extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function aiAgentProfile()
+    public function aiAgentProfile($json_decode = true)
     {
-        return $this->user_ai_agent_profile ? json_decode($this->user_ai_agent_profile, true) : null;
+        if (!$this->user_ai_agent_profile) {
+            return null;
+        }
+        return $json_decode ? json_decode($this->user_ai_agent_profile, true) : $this->user_ai_agent_profile;
     }
 }

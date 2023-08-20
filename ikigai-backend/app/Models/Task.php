@@ -2,12 +2,9 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use JetBrains\PhpStorm\NoReturn;
 
-class Task extends Model
+class Task extends BaseModel
 {
     use HasFactory;
     protected $guarded=['created_at','updated_at'];
@@ -24,9 +21,5 @@ class Task extends Model
     public function belongsToAuthUser(): bool
     {
         return $this->user_id===auth('sanctum')->id();
-    }
-
-    public function madeByUser(){
-        return $this->created_by_user;
     }
 }

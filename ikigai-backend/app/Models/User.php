@@ -27,7 +27,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'status'
+        'status',
+        'session_id'
     ];
     const STATUSES=['pending','accepted','declined','suspended'];
 
@@ -40,6 +41,10 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function ChatMessages(){
+        return $this->hasMany(ChatMessage::class);
+    }
 
 
 
@@ -57,5 +62,22 @@ class User extends Authenticatable
     public function isAccepted(): bool
     {
         return $this->status==='accepted';
+    }
+
+    public function sessionId(){
+        return $this->session_id;
+    }
+
+
+    public function addChatMessage($message,$response_data){
+        return $this->ChatMessages()->create([
+            'message'=>$message,
+            'response'=>$response_data,
+            'user_session_id'=>$this->sessionId()
+        ]);
+    }
+
+    public function aiAgentProfile($json_decode=true){
+     return $this->Survey?->aiAgentProfile($json_decode);
     }
 }

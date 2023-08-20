@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Goal;
 use App\Models\Task;
 use App\Services\AgentServiceRequest;
 use App\Services\ApiResponse;
 use App\Services\TasksService;
 use App\Services\TasksStatistics;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
 class UserProfileController extends Controller
@@ -46,18 +48,22 @@ class UserProfileController extends Controller
         }
         $ikigai_data = json_encode($ai_agent_profile);
         $user->Survey->update(['user_ai_agent_profile' => $ikigai_data]);
-        $old_tasks_ids = $this->getOldTasksIds($user);
+        $old_tasks_ids = $this->getOldModalIds($user->Tasks);
+        $old_goals_ids = $this->getOldModalIds($user->Goals);
+
         $validation = (new TasksService(new AgentServiceRequest))->processGoalsAndTasksRequest($ikigai_data);
         if (!$validation->isSuccessfulCheck()) {
             return ApiResponse::errorResponse($validation->getErrors());
         }
         Task::whereIn('id',$old_tasks_ids)->delete();
+        Goal::whereIn('id',$old_goals_ids)->delete();
+
         return ApiResponse::successResponse('Ikigai profile updated successfully');
     }
 
-    private function getOldTasksIds($user)
+    private function getOldModalIds( $model)
     {
-        return $user->Tasks->filter(function ($task) {
+        return $model->filter(function ($task) {
             if ($task->madeByUser()) {
                 return false;
             }
