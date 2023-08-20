@@ -6,6 +6,12 @@ from agentmemory import (
     update_memory
 )
 
+from langchain.prompts.chat import (
+    ChatPromptTemplate,
+    SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate,
+)
+
 
 class SurveyAnalysisAgent:
     def __init__(self):
@@ -13,32 +19,31 @@ class SurveyAnalysisAgent:
         self.db = chromadb.HttpClient(
             host="localhost", port=8000)
 
-        # TODO Figure out how to create system prompt
-        # Read the Sensei prompt from the file
-        # with open('templates/sensei_prompt.txt', 'r') as file:
-        # sensei_prompt = file.read()
+    def analyze_and_store_goals(self, survey_data):
+        # Analyze survey data using LangChain
 
         with open('templates/survey_analysis.txt', 'r') as file:
             self.prompt_template = file.read()
 
-        # Set the system prompt in LangChain (refer to LangChain docs for the exact method)
-        # self.langchain.set_system_prompt(sensei_prompt)
-
-    def analyze_and_store_goals(self, survey_data):
-        # Analyze survey data using LangChain
         prompt = self.prompt_template.format(survey_data=survey_data)
 
-        goals = self.langchain.analyze_survey_data(prompt)
+        print("Survey Data:", survey_data)
+        print("Constructed Prompt:", prompt)
+
+        return prompt
+        # goals = self.analyze_survey_data(prompt)
+
+        # print("AI Response:", goals, flush=True)  # Print AI's response
 
         # Store goals using AgentMemory
-        for goal in goals:
-            create_memory(category="goal", content=goal)
-
-    # Rest of the class implementation
+        # for goal in goals:
+        # create_memory(category="goal", text="Goals",
+        #   metadata={"goal": goal})
+        # return "[{goals}]"
 
     def analyze_survey_data(self, survey_data):
         # Analyze survey data using LangChain
-        goals = self.langchain.analyze_survey_data(survey_data)
+        goals = self.langchain.predict(survey_data)
         return goals
 
     def generate_daily_tasks(self, goals):

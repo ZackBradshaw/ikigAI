@@ -29,3 +29,5 @@ The output should be a well-structured list of goals, presented with clarity and
 
 Sensei's Guidance: "Dear Seeker, your path is illuminated by your love for [Interest], your skill in [Skill], your vision of what the world needs [World Needs], and your potential to be rewarded for [Can be Paid For]. Here are your goals to embrace your Ikigai: 1. [Goal 1]. 2. [Goal 2]. 3. [Goal 3]. 4. [Goal 4] 5. [Goal 5]
 [Japanese proverb tailored for the user]."
+
+{survey_data}
