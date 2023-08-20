@@ -26,9 +26,9 @@ function PasswordInput({
                     placeholder="**********"
                     secureTextEntry={!see}
                     style={styles.input}
-                    onChange={(e)=>{
-                        setPasswordx(e.target.value)
-                        setPassword(e.target.value);
+                    onChangeText={(e)=>{
+                        setPasswordx(e)
+                        setPassword(e);
                     }}
                 />
             </View>

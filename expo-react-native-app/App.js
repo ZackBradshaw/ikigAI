@@ -26,6 +26,7 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useKeyboardVisible } from './hooks/keyboard';
+import { Provider }  from './screens/context/Provider'
 const Stack = createNativeStackNavigator();
 const Screen1 = () => {
   return <View style={styles.screen1} />;
@@ -141,7 +142,7 @@ function App() {
   
   return (
     <SafeAreaProvider>
-        
+        <Provider>
         <StatusBar
         animated={true}
         backgroundColor="#191518"
@@ -158,7 +159,7 @@ function App() {
       </Stack.Navigator>
       
     </NavigationContainer>
-    
+    </Provider>
     </SafeAreaProvider>
       
       

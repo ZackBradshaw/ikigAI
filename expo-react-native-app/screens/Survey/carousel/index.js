@@ -7,7 +7,7 @@ import {
     Dimensions,
     TouchableOpacity,
     Image,
-    ScrollView,
+    ScrollView,ActivityIndicator,
     KeyboardAvoidingView, Platform, TextInput
 } from "react-native";
 import Svg, {
@@ -21,14 +21,16 @@ import { Icon } from "react-native-eva-icons";
 import Logo from '../logo'
 import Carousel, { getInputRangeFromIndexes } from "react-native-snap-carousel";
 import ProgressBar from "react-native-animated-progress";
-
-
+import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import { useProvider } from '../../context/Provider';
+import axios from 'axios';
+const BASE_URL = 'https://ikig-ai.me/api';
 
 export default function Survey({ navigation, route,data }) {
     const [step, setStep] = useState(0);
-    
+    const [finalAnswers,setFinalAnswers]= useState([]);
     const flatListRef = useRef(null);
-
+    const [loading,setLoading] = useState(false);
     const [questions, setQuestions] = useState(data);
     // reverse array order in one line: array.reverse()
     const [wrong, setWrong] = useState(0);
@@ -38,7 +40,12 @@ export default function Survey({ navigation, route,data }) {
     const [extraInputs, setExtraInputs] = useState([]);
     const forceUpdate = React.useState()[1].bind(null, {});
     const [progress,setProgress] = useState(0);
-    const [progressText,setProgressText] = useState('0/'+data.length)
+    const [progressText,setProgressText] = useState('0/'+data.length);
+    const { token, loadToken } = useProvider();
+
+    useEffect(()=>{
+        loadToken();
+    },[])
     
     const addAnswer = (index, answer) => {
         var newAnswers = currentAnswers;
@@ -73,9 +80,40 @@ export default function Survey({ navigation, route,data }) {
                 /></>
         );
     };
-    useEffect(() => {
+   
+    const sendSurvey = async (token,finalAnswers) => {
+       console.log(finalAnswers)
+        try {
+            Toast.show({
+                type: ALERT_TYPE.WARNING,
+                title: 'Survey is procession!',
+                textBody: "Please be patient while we process your survey."
+              });
+          const response = await axios.post(`${BASE_URL}/survey`,{
+            survey:finalAnswers
+          }, {
+            headers:{
+                'Authorization':`Bearer ${token}`
+            }
+          });
+          console.log(response.data)
+          if(response.data.success){
+            setLoading(false);
+            navigation.navigate("Main");
+          }
+         
+          //saveToken(response.data.credentials.access_token);
 
-    }, []);
+        } catch (error) {
+            
+        Dialog.show({
+            type: ALERT_TYPE.DANGER,
+            title: 'Error',
+            textBody: error.response.data.errors.join('\n'),
+            button: 'TRY AGAIN',
+            });
+        }
+      };
 
     const _animatedStyles = (index, animatedValue, carouselProps) => {
         const sizeRef = carouselProps.vertical
@@ -404,16 +442,76 @@ export default function Survey({ navigation, route,data }) {
                             <TouchableOpacity onPress={()=>{
                                 
                                 if(indexxx === questions.length){
-                                    navigation.navigate("Main")
+                                    setLoading(true);
+                                    let tempMatrix =[]; 
+                                    for (let index = 0; index < currentAnswers.length; index++) {
+                                        const element = currentAnswers[index];
+                                        if(element?.length){
+                                            tempMatrix.push(index);
+                                        }
+                                    }
+                                    for (let index = 0; index < extraInputs.length; index++) {
+                                        const element = extraInputs[index];
+                                        let isThere = false;
+                                        for (let index1 = 0; index1 < tempMatrix.length; index1++) {
+                                            const element = tempMatrix[index1];
+                                            if(element === index){
+                                                isThere = true;
+                                            }
+                                        }
+                                        if(element?.length && !isThere){
+                                            tempMatrix.push(index)
+                                        }
+                                    }
+                                    if(tempMatrix.length==questions.length){
+                                        let tempFinalAnswers = finalAnswers;
+                                        for (let index = 0; index < currentAnswers.length; index++) {
+                                            const answer = currentAnswers[index];
+                                            if(answer && extraInputs[index]?.length){
+                                                tempFinalAnswers[index]={
+                                                    answer:answer+". "+extraInputs[index],
+                                                    question:questions[index].title
+                                            }
+                                            }else if(!answer && extraInputs[index]?.length ){
+                                                tempFinalAnswers[index]={
+                                                    answer:extraInputs[index],
+                                                    question:questions[index].title
+                                                }
+                                            }else {
+                                                
+                                                tempFinalAnswers[index]={
+                                                    answer:answer,
+                                                    question:questions[index].title
+                                                }
+                                            }
+                                        }
+                                        sendSurvey(token,tempFinalAnswers)
+
+
+
+
+                                    }else{
+                                        Toast.show({
+                                            type: ALERT_TYPE.DANGER,
+                                            title: 'Error',
+                                            textBody: "Finalize the survey first!",
+                                          });
+                                          setTimeout(function(){
+                                            setLoading(false); 
+                                          },1000)
+                                        
+                                    }
+                                   // navigation.navigate("Main")
                                 }else{
                                     flatListRef.current.snapToNext();
                                 }
                                
                             }}>
                                 <View style={{ width: '100%', height: "100%", justifyContent: 'center', alignItems: 'center' }}>
+                                   {loading?<ActivityIndicator size="small" color="#b02127"/>:
                                     <Svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <Path d="M8 0L6.59 1.41L12.17 7H0V9H12.17L6.59 14.59L8 16L16 8L8 0Z" fill="#b02127" />
-                                    </Svg>
+                                    </Svg>}
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -430,6 +528,7 @@ export default function Survey({ navigation, route,data }) {
     };
 
     return (
+            <AlertNotificationRoot>        
         <KeyboardAwareScrollView
             vertical
             key={1}
@@ -559,7 +658,7 @@ export default function Survey({ navigation, route,data }) {
             </View>
             </View>
         </KeyboardAwareScrollView>
-
+        </AlertNotificationRoot>
     );
 }
 

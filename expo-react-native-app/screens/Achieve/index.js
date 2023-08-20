@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useRef } from 'react';
 import { StyleSheet, Text, View, Dimensions, Appearance, ScrollView, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { getLocales, getCalendars } from 'expo-localization';
@@ -19,7 +19,11 @@ import { Feather } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useKeyboardVisible } from '../../hooks/keyboard';
+import { useProvider } from '../context/Provider';
+import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import axios from 'axios';
 import Card from './card'
+const BASE_URL = 'https://ikig-ai.me/api';
 
 const BACKGROUND = '#263238'
 const WHITE = 'black'
@@ -82,12 +86,72 @@ const calculateColor = (type) => {
 
 export default function Achieve() {
   const visible = useKeyboardVisible();
+  const scrollRef = useRef(null);
   const [color, setColor] = useState('#b02127'); // Get the first
   const [quoteX, setQuoteX] = useState('');
   const [category, setCategory] = useState('mission');
   const [isFocusCategory, setIsFocusCategory] = useState(false);
   const [, forceUpdate] = useReducer(x => x + 1, 0);
-  const [tasks, setTasks] = useState([{ id: 1, type: 'mission', value: 'Test1' }, { id: 2, type: 'profession', value: 'Test2' }, { id: 3, type: 'vocation', value: 'Test5' }, { id: 4, type: 'passion', value: 'Test4' }]);
+  const [tasks, setTasks] = useState([]);
+  const { token, saveToken, loadToken,userInfo } = useProvider();
+  useEffect(()=>{
+      loadToken();
+  },[])
+   
+  const getTasks = async (token) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/tasks/daily`, {
+        headers:{
+            'Authorization':`Bearer ${token}`
+        }
+      });
+      console.log(response) 
+      console.log(response.data)
+      if(response.data.tasks.length){
+        let tempMasks = response.data.tasks;
+        let tempTasks = [];
+        for (let index = 0; index < tempMasks.length; index++) {
+          const task = tempMasks[index];
+          console.log(task)
+          tempTasks.push({
+            type:task.category,
+            id:task.id,
+            value:task.task,
+            completed:task.completed
+          })
+        }
+        console.log(token)
+        setTasks(tempTasks);
+      
+      }
+
+      //saveToken(response.data.credentials.access_token);
+
+    } catch (error) {
+        console.log(error)
+    Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: 'Error',
+        textBody: error.response.data.errors.join('\n'),
+        button: 'TRY AGAIN',
+        onPressButton: ()=>{
+          forceUpdate();
+      }
+      
+        });
+    }
+  };
+
+  useEffect(()=>{
+    if(token){
+       
+       
+      getTasks(token)
+        
+       
+    }
+},[token])
+
   useEffect(() => {
     const timeout = setTimeout(function () {
       setColor('#FFF')
@@ -104,19 +168,27 @@ export default function Achieve() {
     tempTasks.push({type:category,value:'',id:null})
     setTasks(tempTasks);
     forceUpdate();
+    scrollRef.current.scrollToEnd();
   }
 
   const remove = (id) => {
-    let tempTasks = tasks;
-    for (let index = 0; index < tempTasks.length; index++) {
-      const element = tempTasks[index];
-      if (element.id === id) {
-        tempTasks.splice(index, 1);
-      }
-    }
-    console.log(tempTasks)
-    setTasks(tempTasks);
-    forceUpdate();
+    setTasks([]);
+  //   let tempTasks = JSON.parse(JSON.stringify(tasks));
+  //   for (let index = 0; index < tempTasks.length; index++) {
+  //     const element = tempTasks[index];
+  //     if (element.id === id) {
+  //       console.log(id)
+  //       tempTasks.splice(index, 1);
+  //     }
+  //   }
+    
+  //  setTasks(JSON.parse(JSON.stringify(tempTasks)));
+  //  forceUpdate();
+    //setTimeout(function(){
+      //forceUpdate();
+      getTasks(token)
+   // },1000)
+    // getTasks(token)
   }
 
 
@@ -139,7 +211,7 @@ export default function Achieve() {
   };
 
   return (
-    
+    <AlertNotificationRoot>
     <SafeAreaView style={styles.container}>
       <Bg style={styles.bg} />
       <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -161,7 +233,7 @@ export default function Achieve() {
           </View>
           <View style={{ padding: 12 }}>
             <TypeWriter
-              textArray={["Hello Xxx. Xxx, " + quoteX + " Complete daily tasks to achieve your ikigai."]}
+              textArray={[`Hello, ${userInfo?.name}. ` + quoteX + " Complete daily tasks to achieve your goals."]}
               speed={20}
               delay={0}
               textStyle={styles.cardHeaderText}
@@ -234,18 +306,20 @@ export default function Achieve() {
             </View>
           </View>
         </View>
-        <KeyboardAwareScrollView style={{ zIndex: 0, elevation: 1 }}>
+        <KeyboardAwareScrollView ref={scrollRef} style={{ zIndex: 0, elevation: 1,marginBottom:!visible?265:215 }}>
 
           {tasks.map((task, i) => <View key={i}>{i===tasks.length-1?<View key={i} style={{marginBottom:!visible?60:0}}>
-            <Card index={i} id={task.id} type={task.type} task={task.value} remove={remove} />
+            
+            <Card index={i} idx={task.id} completed={task.completed} type={task.type} task={task.value} remove={remove} />
           </View>:<View key={i}>
-            <Card index={i} id={task.id} type={task.type} task={task.value} remove={remove} />
+            <Card index={i} idx={task.id} completed={task.completed} type={task.type} task={task.value} remove={remove} />
           </View>}</View>)}
-          <View style={{ height: !visible?290:240, flex: 1 }}></View>
+          {/* <View style={{ height: !visible?290:240, flex: 1 }}></View> */}
         </KeyboardAwareScrollView>
       </View>
     </SafeAreaView>
-    
+    </AlertNotificationRoot>
+
   );
 }
 

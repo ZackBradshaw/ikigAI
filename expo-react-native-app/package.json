@@ -12,6 +12,7 @@
   "dependencies": {
     "@hadnet/react-native-segmented-control": "^1.0.0",
     "@nghinv/react-native-badge": "^0.0.2",
+    "@react-native-async-storage/async-storage": "^1.19.2",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
