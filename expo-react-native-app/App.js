@@ -4,10 +4,11 @@ import 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginRegister from './screens/LoginRegister';
-import Badge from "@nghinv/react-native-badge";
-import Main from './screens/Main'
+import Badge from "@nghinv/react-native-badge"; 
 import SurveyScreen from './screens/Survey'
 import Achieve from './screens/Achieve'
+import Chat from './screens/Chat'
+import Dashboard from './screens/Dashboard';
 import React,{useEffect,useRef} from 'react';
 import {
   Alert,
@@ -98,7 +99,7 @@ function MainScreen() {
           <Animated.View style={styles.btnCircleUp}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => Alert.alert('Click Action')}
+              onPress={() => navigate('Chat')}
             >
               <Ionicons name={'chatbox-ellipses-outline'} color="white" size={25} />
             </TouchableOpacity>
@@ -122,8 +123,13 @@ function MainScreen() {
         <CurvedBottomBarExpo.Screen
           name="Dashboard"
           screenOptions={({ route }) => ({ headerShown: false })} 
-          component={() => <Screen2 />}
+          component={Dashboard}
           position="RIGHT"
+        />
+      <CurvedBottomBarExpo.Screen
+          name="Chat"
+          screenOptions={({ route }) => ({ headerShown: false })} 
+          component={Chat}
         />
       </CurvedBottomBarExpo.Navigator>
 
@@ -145,8 +151,9 @@ function App() {
     <NavigationContainer>
     
       <Stack.Navigator>
+      
         <Stack.Screen  options={{ headerShown: false }} name="Home" component={LoginRegister} />
-        <Stack.Screen  options={{ headerShown: false }} name="Main" component={MainScreen} />
+        <Stack.Screen  options={{ headerShown: false }} name="Main" component={MainScreen} />  
         <Stack.Screen  options={{ headerShown: false}} name="Survey" component={SurveyScreen} />
       </Stack.Navigator>
       
