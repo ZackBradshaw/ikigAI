@@ -7,6 +7,10 @@ import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
+import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import { useProvider } from '../../context/Provider';
+import axios from 'axios';
+const BASE_URL = 'https://ikig-ai.me/api';
 
 
 const calculateColor = (type) => {
@@ -46,19 +50,136 @@ const Capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export default function Card({ index, type, id, task,remove }) {
+export default function Card({ index, type, idx, task,remove }) {
     const [done, setDone] = useState(false);
     const [edit, setEdit] = useState(false);
+    const [id, setId] = useState(null);
     const [value, setValue] = useState('');
-
-    useEffect(function () {
+    const { token, saveToken, loadToken, setUserInfo } = useProvider();
+    useEffect(() => {
+        loadToken();
+        setId(idx)
         setValue(task);
     }, [])
+
+    useEffect(function () {
+      
+        console.log(id)
+    }, [id])
+
+
+    
+    const changeValue = async (token) => {
+        if(id){
+         let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `${BASE_URL}/goals/${id}/update`,
+            data:{
+                goal:value
+            },
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        console.log(config)
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response));
+                
+                Toast.show({
+                    type: ALERT_TYPE.SUCCESS,
+                    title: 'Success',
+                    textBody: 'Goal was edited with success!'
+                  });
+            })
+            .catch((error) => {
+                console.log(error);
+                // Dialog.show({
+                //     type: ALERT_TYPE.DANGER,
+                //     title: 'Error',
+                //     textBody: error.response.data.errors.join('\n'),
+                //     button: 'TRY AGAIN',
+                //     });
+            });
+        }else {
+       
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `${BASE_URL}/goals`,
+            data:{
+                goal:value,
+                category:type
+            },
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        console.log(config)
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response));
+                setId(response.data.task.id)
+                Toast.show({
+                    type: ALERT_TYPE.SUCCESS,
+                    title: 'Success',
+                    textBody: 'Goal was added with success!'
+                  });
+            })
+            .catch((error) => {
+                console.log(error);
+                // Dialog.show({
+                //     type: ALERT_TYPE.DANGER,
+                //     title: 'Error',
+                //     textBody: error.response.data.errors.join('\n'),
+                //     button: 'TRY AGAIN',
+                //     });
+            });
+        }
+
+    };
+
+    const deleteTask = async (token,id) => {
+        console.log(id)
+        let config = {
+            method: 'delete',
+            maxBodyLength: Infinity,
+            url: `${BASE_URL}/goals/${id}/delete`,
+            headers: { 
+                'Authorization': `Bearer ${token}`
+            }
+          };
+          
+          axios.request(config)
+          .then((response) => {
+            console.log(JSON.stringify(response.data));
+            if(response.data.success){
+            Toast.show({
+                type: ALERT_TYPE.DANGER,
+                title: 'Success',
+                textBody: 'Goal was deleted with success!'
+              });
+              remove(id);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+     
+
+    };
+  
 
     return (
         <TouchableOpacity activeOpacity={0.9} onPress={() => {
             setEdit(false)
             // setDone(!done)
+            if(edit){
+                changeValue(token)
+            }
         }}>
             <View style={index !== 0 ? [styles.cardTask, { marginTop: 8 }] : [styles.cardTask, { marginTop: 16}]}>
                 <View style={{ position: 'absolute', right: 0, }}>
@@ -72,7 +193,7 @@ export default function Card({ index, type, id, task,remove }) {
                 </View>
                 <View style={{ position: 'absolute', right: 0, bottom: 0, }}>
                     <TouchableOpacity activeOpacity={0.5} onPress={(e) => {
-                        remove(id)
+                        deleteTask(token,id)
                     }}>
                         <View style={{ height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}>
                             <FontAwesome name="trash-o" size={20} color="grey" />

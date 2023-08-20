@@ -26,7 +26,7 @@ function LoginScreen({navigation}) {
     const [emailRegister, setEmailRegister] = useState(null);
     const [emailForgotPassword, setEmailForgotPassword] = useState(null);
     const [username,setUsername] = useState(null);
-   const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { token, saveToken, loadToken,setUserInfo } = useProvider();
     useEffect(()=>{
         loadToken();
@@ -65,11 +65,7 @@ function LoginScreen({navigation}) {
 
     useEffect(()=>{
         if(token){
-           
-           
             checkSurvey(token)
-            
-           
         }
     },[token])
 
@@ -164,8 +160,9 @@ function LoginScreen({navigation}) {
 
     return (
         <AlertNotificationRoot>
-        <KeyboardAvoidingView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
+        <KeyboardAvoidingView style={{ flex: 1 }} >
             <SafeAreaView style={{ flex: 1, height: '100%', backgroundColor: 'red', justifyContent: 'center' }}>
+            
                 <Bg style={styles.bg} />
                 <CardFlip style={styles.cardWrapper} ref={card} >
                     <View style={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}>
@@ -396,12 +393,10 @@ function LoginScreen({navigation}) {
                                     </View>
                                 </View>
 
-
-
                             </View>
                         </View>}
                 </CardFlip>
-
+                
             </SafeAreaView>
 
         </KeyboardAvoidingView>

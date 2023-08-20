@@ -26,7 +26,8 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useKeyboardVisible } from './hooks/keyboard';
-import { Provider }  from './screens/context/Provider'
+import { Provider }  from './screens/context/Provider';
+import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
 const Stack = createNativeStackNavigator();
 const Screen1 = () => {
   return <View style={styles.screen1} />;
@@ -141,6 +142,7 @@ function MainScreen() {
 function App() {
   
   return (
+    
     <SafeAreaProvider>
         <Provider>
         <StatusBar
@@ -154,8 +156,9 @@ function App() {
       <Stack.Navigator>
       
         <Stack.Screen  options={{ headerShown: false }} name="Home" component={LoginRegister} />
-        <Stack.Screen  options={{ headerShown: false }} name="Main" component={MainScreen} />  
         <Stack.Screen  options={{ headerShown: false}} name="Survey" component={SurveyScreen} />
+        <Stack.Screen  options={{ headerShown: false }} name="Main" component={MainScreen} />  
+       
       </Stack.Navigator>
       
     </NavigationContainer>
