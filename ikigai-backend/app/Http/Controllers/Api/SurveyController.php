@@ -10,16 +10,16 @@ use App\Services\TasksService;
 
 class SurveyController extends Controller
 {
-    private  $user;
-    private array $task_categories=Task::CATEGORIES;
-    public function __construct(private $agent= new AgentServiceRequest)
+    private $user;
+    private array $task_categories = Task::CATEGORIES;
+
+    public function __construct(private $agent = new AgentServiceRequest)
     {
         $this->user = auth('sanctum')->user();
     }
 
     public function store(): \Illuminate\Http\JsonResponse
     {
-
 
 
         if (!\request()->filled('survey')) {
@@ -50,15 +50,21 @@ class SurveyController extends Controller
                 return ApiResponse::errorResponse($validation->getErrors());
             }
             $response_data = $validation->getValidatedItem('response_data');
-            $ikigai_data = json_encode(json_decode($response_data, true));
-            $survey->update(['user_ai_agent_profile' => $ikigai_data]);
+            $ikigai_data = json_decode($response_data, true);
+            if (isset($ikigai_data['answers'])) {
 
-            $validation=(new TasksService($this->agent))->processGoalsAndTasksRequest($ikigai_data);
+                $ikigai_data = $ikigai_data['answers'];
+            }
+
+            $ikigai_data = json_encode($ikigai_data);
+
+            $survey->update(['user_ai_agent_profile' => $ikigai_data]);
+            $validation = (new TasksService($this->agent))->processGoalsAndTasksRequest($ikigai_data);
             if (!$validation->isSuccessfulCheck()) {
                 return ApiResponse::errorResponse($validation->getErrors());
             }
-            $tasks=$this->user->Tasks;
-            return ApiResponse::successResponse('Survey processed successfully!',compact('tasks'));
+            $tasks = $this->user->Tasks;
+            return ApiResponse::successResponse('Survey processed successfully!', compact('tasks'));
 
         } catch (\Exception $e) {
             fullLog($e->getMessage());

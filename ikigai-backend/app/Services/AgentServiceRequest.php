@@ -15,8 +15,7 @@ class AgentServiceRequest
 
             try {
 
-                $response = Http::asForm()->post($url,$request_data);
-
+                $response = Http::timeout(60)->asForm()->post($url,$request_data);
 
                 return $this->processResponse($response);
             }catch (\Exception $e){

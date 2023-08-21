@@ -33,3 +33,4 @@ function authUser(): ?\Illuminate\Contracts\Auth\Authenticatable
 {
     return auth('sanctum')->user();
 }
+
