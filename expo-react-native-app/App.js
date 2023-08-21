@@ -105,13 +105,13 @@ function MainScreen() {
             >
               <Ionicons name={'chatbox-ellipses-outline'} color="white" size={25} />
             </TouchableOpacity>
-            <Badge
+            {/* <Badge
               backgroundColor="#191518"
               containerStyle={styles.badge}
               label={10}
               size={15}
               labelFormatterLimit={2}
-            />
+            /> */}
           </Animated.View>
         )}
         tabBar={renderTabBar}
