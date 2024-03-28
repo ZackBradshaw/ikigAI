@@ -4,6 +4,8 @@
 
 Ikigai is an interactive self-help app inspired by the Japanese concept of finding one's purpose in life. It aims to assist users in discovering and achieving their "Ikigai" through a blend of AI-driven guidance and community support. The backend is built with Python, while the frontend utilizes Next.js and Tailwind CSS.
 
+Project for hackathon on lablab ai. Link: [https://lablab.ai/event/autonomous-agents-hackathon/agora-spartans/ikigai](https://lablab.ai/event/autonomous-agents-hackathon/agora-spartans/ikigai)
+
 ## Table of Contents
 - [Getting Started](#getting-started)
 - [Prerequisites](#prerequisites)
